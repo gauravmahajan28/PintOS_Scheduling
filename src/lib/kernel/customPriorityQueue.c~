@@ -1,0 +1,73 @@
+#include "customPriorityQueue.h"
+#include "../debug.h"
+
+struct thread *getMinimumFromCustomPriorityQueue(CustomPriorityQueue *customPriorityQueue)
+{
+	// handle in calling function
+	if(customPriorityQueue->size == 0)
+		return NULL;
+
+	else
+		return (customPriorityQueue->thread[0]);
+
+
+}
+struct thread *deleteFromCustomPriorityQueue(CustomPriorityQueue *customPriorityQueue)
+{
+
+	// handle in calling function
+	if(customPriorityQueue->size == 0)
+		return NULL;
+
+	struct thread *minimumThread = customPriorityQueue->thread[0];
+
+	swapCustomPriorityQueueThreads(customPriorityQueue, 0 , (customPriorityQueue->currentQueueSize - 1));
+
+	(customPriorityQueue->currentQueueSize)--;
+
+	int currentParentLocation = 0;
+	int maxParentLocation = (customPriorityQueue->currentQueueSize - 2) / 2;
+	int currentQueueSize = customPriorityQueue->currentQueueSize;
+
+	while(currentParentLocation <= maxParentLocation)
+	{
+
+		struct thread *currentParentThread = customPriorityQueue->thread[currentParentLocation];
+
+		int minimumTimeLocation = currentParentLocation;
+
+		int leftChildLocation = getLeftChildLocation(currentParentLocation);
+		int rightChildLocation = getRightChildLocation(currentParentLocation);
+
+		if(leftChildLocation < currentQueueSize)
+		{
+			struct thread *leftChildThread = customPriorityQueue->thread[getLeftChildLocation(currentLocation)];
+
+			if(currentParentThread->time > leftChildThread->time)
+				minimumTimeLocation = leftChildLocation;
+		}
+
+		if(rightChildLocation < currentQueueSize)
+		{
+
+
+			struct thread *rightChildThread = customPriorityQueue->thread[getRightChildLocation(currentLocation)];
+			if((customPriorityQueue->thread[minimumTimeLocation]->time) > rightChildThread->time)
+				minimumTimeLocation = rightChildLocation;
+
+		}
+		if(minimumTimeLocation != currentParentLocation)
+		{
+			swapCustomPriorityQueueThreads(customPriorityQueue, currentParentLocation , minimumTimeLocation);
+			currentParentLocation = minimumTimeLocation;
+		}
+		else
+			break;
+
+	}
+
+}
+
+
+																																				                                                                                                                             87,0-1        71%
+
